@@ -1,0 +1,9 @@
+dist-newstyle/
+.idea/
+cabal.project.local
+*.addr
+*.skey
+*.vkey
+
+.history
+test-reports/
