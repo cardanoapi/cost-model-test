@@ -26,7 +26,7 @@ cardano-cli conway transaction sign \
     --tx-body-file .cluster-address/fund-wallet-address.tx \
     --signing-key-file $GENESIS_SKEY_FILE \
     --testnet-magic 42 \
-    --out-file .cluster-address/fund-wallet-address.tx \
+    --out-file .cluster-address/fund-wallet-address.tx 
 
 cardano-cli transaction submit \
     --tx-file .cluster-address/fund-wallet-address.tx \

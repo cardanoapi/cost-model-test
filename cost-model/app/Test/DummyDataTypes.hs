@@ -158,13 +158,13 @@ v3VerifyEd25519Redeemer =
     VerifyEd25519.Ed25519Components
         { VerifyEd25519.vk =
             BI.toBuiltin $
-                bytesFromHex "e253af0766804b869bb1595be9765b534886bbaab8305bf50dbc7f899bfb5f0101"
+                bytesFromHex "98a5e3a36e67aaba89888bf093de1ad963e774013b3902bfab356d8b90178a63"
         , VerifyEd25519.msg =
             BI.toBuiltin $
-                bytesFromHex "18b6bec097"
+                bytesFromHex "b4a8f381e70e7a"
         , VerifyEd25519.sig =
             BI.toBuiltin $
-                bytesFromHex "b2fc46ad47af464478c199e1f8be169f1be6327c7f9a0a6689371ca94caf04064a01b22aff1520abd58951341603faed768cf78ce97ae7b038abfe456aa17c09"
+                bytesFromHex "6e0af2fe55ae377a6b7a7278edfb419bd321e06d0df5e27037db8812e7e3529810fa5552f6c0020985ca17a0e02e036d7b222a24f99b77b75fdd16cb05568107"
         }
 
 v3VerifyBlake2b224Datum :: BuiltinByteString
@@ -172,10 +172,3 @@ v3VerifyBlake2b224Datum = BI.toBuiltin $ bytesFromHex "5d4f58f5d89db08086d4cb0d9
 
 v3VerifyBlake2b224Redeemer :: BuiltinByteString
 v3VerifyBlake2b224Redeemer = BI.toBuiltin $ bytesFromHex "e9328f3aefec871e517803de2efaab12c792a9efb1f0f497a4996504b9f33c69"
-
--- test =
---     let point = (bls12_381_G1_uncompress $ VerifyBLS12G1.point1 blsG1Datum) `bls12_381_millerLoop` (bls12_381_G2_uncompress $ VerifyBLS12G2.point2 blsG2Datum)
---     in show point
-
--- prettyPrint :: ByteString -> String
--- prettyPrint = concat . map (flip showHex "") . BS.unpack

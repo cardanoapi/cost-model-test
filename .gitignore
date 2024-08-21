@@ -1,6 +1,7 @@
 dist-newstyle/
 .idea/
 cabal.project.local
+.cluster-address/
 *.addr
 *.skey
 *.vkey

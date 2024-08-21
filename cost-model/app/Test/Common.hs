@@ -77,6 +77,16 @@ lock addr value datum = txPayToScriptWithData addr value (hashData datum)
 redeem :: (IsPlutusScript sc, PlutusTx.ToData a1) => TxIn -> sc -> a1 -> TxBuilder
 redeem txIn script redeemer = txRedeemTxin txIn script (hashData redeemer) Nothing
 
+redeemWithRefScript txin txout redeemer refTxIn = do 
+  txRedeemTxinWithReferenceScript refTxIn txin txout (hashData redeemer) Nothing
+
+resolveTxIn:: HasChainQueryAPI api => TxIn -> Kontract api w FrameworkError (TxIn, TxOut CtxUTxO ConwayEra)
+resolveTxIn txin = do 
+  (UTxO uMap) :: UTxO ConwayEra <- kQueryUtxoByTxin  $ Set.singleton txin
+  case Map.toList uMap  of 
+    [] -> kError NodeQueryError $ "Provided Utxo not found " ++  T.unpack (renderTxIn txin )
+    [(_,tout)]-> pure (txin,tout)
+
 waitTxConfirmation :: HasChainQueryAPI a => Tx ConwayEra -> Integer
       -> Kontract a w FrameworkError ()
 waitTxConfirmation tx totalWaitSecs =
@@ -125,17 +135,32 @@ reportExUnitsandFee tx = case tx of
     exUnits = map snd $ map snd $  Map.toList $ L.unRedeemers $  txWitnesses ^. L.rdmrsTxWitsL
     txFee=L.unCoin $ ledgerTx ^. L.bodyTxL ^. L.feeTxBodyL
     in do
-      (euMem,euCpu) <-case exUnits of
-            [eunit]-> let eu = L.unWrapExUnits eunit
-                          (mem,cpu) =   (L.exUnitsMem' eu,L.exUnitsSteps' eu)
-                      in do
-                        putStrLn $  "ExUnits     :  memory = " ++ show mem ++ " cpu = " ++ show cpu
-                        pure (toInteger mem, toInteger cpu)
-            _       -> pure  (0,0)
+      -- (euMem,euCpu) <-case exUnits of
+      --       [eunit]-> let eu = L.unWrapExUnits eunit
+      --                     (mem,cpu) =   (L.exUnitsMem' eu,L.exUnitsSteps' eu)
+      --                 in do
+      --                   putStrLn $ "\n"
+      --                   putStrLn $  "ExUnits     :  memory = " ++ show mem ++ " cpu = " ++ show cpu
+      --                   pure (toInteger mem, toInteger cpu)
+      --       _       -> pure  (0,0)
       putStrLn $  "Fee      :   " ++ show txFee
-      if sizeLedger /= sizeCapi
-        then do
-          putStrLn $  "Tx Bytes (ledger):   " ++ show sizeLedger
-          putStrLn $  "Tx Bytes (api)   :   " ++ show sizeCapi
-        else
-          putStrLn $  "Tx Bytes  :   " ++ show sizeCapi
+      -- if sizeLedger /= sizeCapi
+      --   then do
+      --     putStrLn $  "Tx Bytes (ledger):   " ++ show sizeLedger
+      --     putStrLn $  "Tx Bytes (api)   :   " ++ show sizeCapi
+      --   else
+      putStrLn $  "Tx Bytes  :   " ++ show sizeCapi
+
+reportStrippedTxBytes tx datum redeemer = case tx of 
+  ShelleyTx era ledgerTx -> let
+    sizeCapi = fromIntegral $  BS.length  $ serialiseToCBOR tx
+    datumSize = fromIntegral $ BS.length $ serialiseToCBOR $ hashData datum 
+    redeemerSize = fromIntegral $ BS.length $ serialiseToCBOR $ hashData redeemer
+    datumAndRedeemerBytes = datumSize + redeemerSize
+    stripped = sizeCapi - datumAndRedeemerBytes
+    in do
+      putStrLn ("Datum and Redeemer Bytes:    " ++ show datumAndRedeemerBytes)
+      putStrLn ("Stripped Tx Bytes:   " ++ show stripped)
+
+      
+  
