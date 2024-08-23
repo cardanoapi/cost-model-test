@@ -1,0 +1,85 @@
+
+Testing VerifyECDSA
+	address: "addr_test1wr3v44ck9f83456ln57fhlm7m277wfmd8dtph473mkaftdgh4ctaj"
+	script bytes: 3083
+
+Creating Reference Script...
+Tx Submitted :11311bac913ce9cba075acb208b46d1068c54b1b8e5b04595753e9bf48a932f0
+
+Locking...
+Tx Submitted :67e7127fd15f0446976bef7c686c4cabff4d706bf6f2e70e996e2f6262654af0
+
+Redeeming with reference script...
+Tx Submitted :4aa710d1a0ad2cefe094d3cbb34a536401694c3e5ab6c09440bd857b72828c7f
+
+Passed
+
+===========================================================================================
+
+Testing VerifyECDSATrace
+	address: "addr_test1wzxygz47n2mfvtartpwr2y77fyfgqk5tryc2ljju9st0tpgss80n7"
+	script bytes: 3088
+
+Creating Reference Script...
+Tx Submitted :a53f7f0b242d81999e057cb0ca0d7146b2f206d0f69350c63bdbd299d9412d86
+
+Locking...
+Tx Submitted :db83aca6789307d53dcd3eb39f5a6b874cf34b2c05763b6368b58b8ac39e8b58
+
+Redeeming with reference script...
+Tx Submitted :6b7df1bc54dd54a8e0e42d8c8b8c941dab76b65cb2b48ac52dc66452911dcc47
+
+Passed
+
+===========================================================================================
+
+Testing VerifyEd25519
+	address: "addr_test1wzmv4tnq6thvd83ce2sp0qfk689ls39qy7qr2yqrtt9u7tch3xjl4"
+	script bytes: 3083
+
+Creating Reference Script...
+Tx Submitted :59c2c11b9423a4b334bdfc021a59591d0727e4f0310e61f53968a1332954cdec
+
+Locking...
+Tx Submitted :5a85113be5880d97f6cd6ccd24846016ebbae55493e8db4598698af9c56d1b10
+
+Redeeming with reference script...
+Tx Submitted :201f6cc7677354dd8d9b729d32dde8d2f8381b69e23c59115094f7e1bdcaead1
+
+Passed
+
+===========================================================================================
+
+Testing VerifyEd25519Trace
+	address: "addr_test1wq5nmryc9z4lx6fthdruk4q324q5azt7l96yjfzutjnwkesjj0369"
+	script bytes: 3088
+
+Creating Reference Script...
+Tx Submitted :966603bb89956271174460481f15448b384ac50594f5f6dcbd213fffc50c22dd
+
+Locking...
+Tx Submitted :25409f9a9de0962b853d6f4386c876c03b9f2df137dc383df81bdc35716a4e33
+
+Redeeming with reference script...
+Tx Submitted :6db9e0aa209bfdb5885a1dc5fca90d24501ae91ed8130d0e2bcd652798813735
+
+Passed
+
+===========================================================================================
+
+------------------------------------------------------------------------------------------------------------------------------
+VerifyECDSA: BytesAndFeeRecord {scriptBytes = 3083, fee = 277637}
+VerifyECDSATrace: BytesAndFeeRecord {scriptBytes = 3088, fee = 277740}
+Expected cost increase due to ref script: 75 Lovelace
+Observed cost increase: 103
+Trace implementation cost in VerifyECDSA (observed - expected) : 28
+
+------------------------------------------------------------------------------------------------------------------------------
+VerifyEd25519: BytesAndFeeRecord {scriptBytes = 3083, fee = 277941}
+VerifyEd25519Trace: BytesAndFeeRecord {scriptBytes = 3088, fee = 278044}
+Expected cost increase due to ref script: 75 Lovelace
+Observed cost increase: 103
+Trace implementation cost in VerifyEd25519 (observed - expected) : 28
+
+------------------------------------------------------------------------------------------------------------------------------
+minFeeRefScriptCostPerByte Verified

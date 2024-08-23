@@ -56,39 +56,45 @@ main= do
     verifyEcdsaUntraced <- evaluateKontract chainInfo 
         (runWithRefScript "VerifyECDSA" VerifyECDSA.validator walletAddr sKey networkId v3VerifyEcdsaDatum v3VerifyEcdsaRedeemer) 
         >>= throwFrameworkError
-    liftIO $ putStrLn ("VerifyECDSA: " ++ show verifyEcdsaUntraced)
+    
     verifyEcdsaTraced <- evaluateKontract chainInfo 
         (runWithRefScript "VerifyECDSATrace" VerifyEcdsaTrace.validator walletAddr sKey networkId v3VerifyEcdsaDatum v3VerifyEcdsaRedeemer) 
         >>= throwFrameworkError
-    liftIO $ putStrLn ("VerifyECDSATrace: " ++ show verifyEcdsaTraced)
+    
     let deltaFeeC1 = fee verifyEcdsaTraced - fee verifyEcdsaUntraced
         deltaBytesC1 = scriptBytes verifyEcdsaTraced - scriptBytes verifyEcdsaUntraced
         expectedC1 = deltaBytesC1 * 15 
         observedC1 = deltaFeeC1
         traceFeeC1 = observedC1 - expectedC1
-    liftIO $ putStrLn ("Expected cost increase due to ref script: " ++ (show expectedC1) ++ " Lovelace")
-    liftIO $ putStrLn ("Observed cost increase: " ++ (show observedC1))
-    liftIO $ putStrLn ("Trace implementation cost in VerifyECDSA (observed - expected) : " ++ (show traceFeeC1))
-    
 
     -- record for C2 
     verifyEd25519Untraced <- evaluateKontract chainInfo 
         (runWithRefScript "VerifyEd25519" VerifyEd25519.validator walletAddr sKey networkId v3VerifyEd25519Datum v3VerifyEd25519Redeemer) 
         >>= throwFrameworkError
-    liftIO $ putStrLn ("VerifyEd25519: " ++ show verifyEd25519Untraced)
+    
     verifyEd25519Traced <- evaluateKontract chainInfo 
         (runWithRefScript "VerifyEd25519Trace" VerifyEd25519Trace.validator walletAddr sKey networkId v3VerifyEd25519Datum v3VerifyEd25519Redeemer) 
         >>= throwFrameworkError
-    liftIO $ putStrLn ("VerifyEd25519Trace: " ++ show verifyEd25519Traced)
+    
     let deltaFeeC2 = fee verifyEd25519Traced - fee verifyEd25519Untraced
         deltaBytesC2 = scriptBytes verifyEd25519Traced - scriptBytes verifyEd25519Untraced
         expectedC2 = deltaBytesC2 * 15
         observedC2 = deltaFeeC2
         traceFeeC2 = observedC2 - expectedC2
+
+    liftIO $ putStrLn "\n------------------------------------------------------------------------------------------------------------------------------"
+    liftIO $ putStrLn ("VerifyECDSA: " ++ show verifyEcdsaUntraced)
+    liftIO $ putStrLn ("VerifyECDSATrace: " ++ show verifyEcdsaTraced)
+    liftIO $ putStrLn ("Expected cost increase due to ref script: " ++ (show expectedC1) ++ " Lovelace")
+    liftIO $ putStrLn ("Observed cost increase: " ++ (show observedC1))
+    liftIO $ putStrLn ("Trace implementation cost in VerifyECDSA (observed - expected) : " ++ (show traceFeeC1))
+    liftIO $ putStrLn "\n------------------------------------------------------------------------------------------------------------------------------"
+    liftIO $ putStrLn ("VerifyEd25519: " ++ show verifyEd25519Untraced)
+    liftIO $ putStrLn ("VerifyEd25519Trace: " ++ show verifyEd25519Traced)
     liftIO $ putStrLn ("Expected cost increase due to ref script: " ++ (show expectedC2) ++ " Lovelace")
     liftIO $ putStrLn ("Observed cost increase: " ++ (show observedC2))
     liftIO $ putStrLn ("Trace implementation cost in VerifyEd25519 (observed - expected) : " ++ (show traceFeeC2))
-    
+    liftIO $ putStrLn "\n------------------------------------------------------------------------------------------------------------------------------"
     if traceFeeC1 == traceFeeC2 
         then liftIO $ putStrLn "minFeeRefScriptCostPerByte Verified"
         else liftIO $ putStrLn "minFeeRefScriptCostPerByte Failed" 

@@ -19,18 +19,17 @@ runWithRefScript contractName validator walletAddr skey netId datum redeemer = d
     let txScript = TxScriptPlutus $ toTxPlutusScript $ v3script scriptInfo
         scriptBytes = txScriptByteSize $ txScript
     trace("\tscript bytes: " ++ (show scriptBytes ))
+    trace("\nCreating Reference Script...")
     txCreateRefScriptUtxo <- testCreateRefScriptUtxo walletAddr skey txScript
     let refScriptUtxoTxId = TxIn (getTxId $ getTxBody txCreateRefScriptUtxo) (TxIx 0)
-    trace("\nCreating Reference Script...")
     waitTxConfirmation txCreateRefScriptUtxo 180
-    txLock <- testLock walletAddr skey (v3script scriptInfo) datum
     trace("\nLocking...")
+    txLock <- testLock walletAddr skey (v3script scriptInfo) datum
     waitTxConfirmation txLock 180
     let input = TxIn (getTxId $ getTxBody $ txLock) (TxIx 0)
+    trace("\nRedeeming with reference script...")
     txReedeem <- testRedeem walletAddr skey (v3script scriptInfo) input redeemer (Just refScriptUtxoTxId)
     let fee = reportExUnitsandFee txReedeem
-    liftIO $ reportStrippedTxBytes txReedeem datum redeemer
-    trace("\nRedeeming with reference script...")
     waitTxConfirmation txReedeem 180
     trace("\nPassed")
     trace("\n===========================================================================================")
