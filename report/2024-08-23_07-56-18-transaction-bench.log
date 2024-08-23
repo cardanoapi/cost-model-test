@@ -1,0 +1,87 @@
+
+Testing VerifyECDSA
+	address: "addr_test1wr3v44ck9f83456ln57fhlm7m277wfmd8dtph473mkaftdgh4ctaj"
+	script bytes: 3083
+Tx Submitted :d1fd56450e0e3aa2a9a195ec13dd8d00916625deb4c024c65f078cc533f05b11
+
+Creating Reference Script...
+Tx Submitted :1892ecd538b61bdf4300aff53350b9064b1fbaeee71ef9fce88b3357ff122f08
+
+Locking...
+Tx Submitted :1e185c4c4e9926f418534de0bdfe854664cf9cb0f5a5f329838f33806bf528b0
+Datum and Redeemer Bytes:    278
+Stripped Tx Bytes:   325
+
+Redeeming with reference script...
+
+Passed
+
+===========================================================================================
+VerifyECDSA: BytesAndFeeRecord {scriptBytes = 3083, fee = 277637}
+
+Testing VerifyECDSATrace
+	address: "addr_test1wzxygz47n2mfvtartpwr2y77fyfgqk5tryc2ljju9st0tpgss80n7"
+	script bytes: 3088
+Tx Submitted :6eb52a6f1664d5765a3c2035e1b5b32088317d668c9afdd93104f7740892c835
+
+Creating Reference Script...
+Tx Submitted :5bb7f20ea89247461d416c2d4d8411f6e3b8f25ffc751ef1220fefb9a783ec83
+
+Locking...
+Tx Submitted :991fc138945e88835e0cd2873db492c1778622a7264ff595b4c2d07d87a76582
+Datum and Redeemer Bytes:    278
+Stripped Tx Bytes:   325
+
+Redeeming with reference script...
+
+Passed
+
+===========================================================================================
+VerifyECDSATrace: BytesAndFeeRecord {scriptBytes = 3088, fee = 277740}
+Expected cost increase due to ref script: 75 Lovelace
+Observed cost increase: 103
+Trace implementation cost in VerifyECDSA (observed - expected) : 28
+
+Testing VerifyEd25519
+	address: "addr_test1wzmv4tnq6thvd83ce2sp0qfk689ls39qy7qr2yqrtt9u7tch3xjl4"
+	script bytes: 3083
+Tx Submitted :1a916cffae875038510602d45d8f498f1f4f87ea9d3da1c6dd7f485cca424a44
+
+Creating Reference Script...
+Tx Submitted :0586b456269edbce884b8b0a1979e77eb7f4edacab52e22124fc55f8c448e2cb
+
+Locking...
+Tx Submitted :8d01ce24b363752e08ce87bf47ceebe6b3c31018b8087a98ea46f4ba7214e02e
+Datum and Redeemer Bytes:    224
+Stripped Tx Bytes:   352
+
+Redeeming with reference script...
+
+Passed
+
+===========================================================================================
+VerifyEd25519: BytesAndFeeRecord {scriptBytes = 3083, fee = 277941}
+
+Testing VerifyEd25519Trace
+	address: "addr_test1wq5nmryc9z4lx6fthdruk4q324q5azt7l96yjfzutjnwkesjj0369"
+	script bytes: 3088
+Tx Submitted :d32626c14de8d040def54441bd7ad1a5bd28c593b5abac60d851d057288c9227
+
+Creating Reference Script...
+Tx Submitted :0c7c5440b4ef6cd9c674914e87efae2bf28c38d9650226b523dfbb9e46d16e86
+
+Locking...
+Tx Submitted :983f17b70e802b98990b9205a8a1d17a3584305e9c728bb907a635853666d798
+Datum and Redeemer Bytes:    224
+Stripped Tx Bytes:   352
+
+Redeeming with reference script...
+
+Passed
+
+===========================================================================================
+VerifyEd25519Trace: BytesAndFeeRecord {scriptBytes = 3088, fee = 278044}
+Expected cost increase due to ref script: 75 Lovelace
+Observed cost increase: 103
+Trace implementation cost in VerifyEd25519 (observed - expected) : 28
+minFeeRefScriptCostPerByte Verified
