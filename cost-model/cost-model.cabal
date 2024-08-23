@@ -68,7 +68,9 @@ executable cost-model
         V3.Spend.VerifyBlake2b224
         V3.Spend.VerifyBLS12G1
         V3.Spend.VerifyBLS12G2
+        V3.Spend.VerifyEcdsaTrace
         V3.Spend.VerifyEcdsa
+        V3.Spend.VerifyEd25519Trace
         V3.Spend.VerifyEd25519
         V3.Spend.VerifyKeccak
         V3.Spend.VerifyMultiSig

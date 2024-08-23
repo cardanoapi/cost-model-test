@@ -5,26 +5,26 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# OPTIONS_GHC -fplugin-opt PlutusTx.Plugin:target-version=1.1.0 #-}
 
-module V3.Spend.VerifyEd25519 where
+module V3.Spend.VerifyEcdsaTrace where
 
 import PlutusLedgerApi.V3
 import PlutusTx qualified
 import PlutusTx.Prelude
 
-data Ed25519Components = Ed25519Components
+data EcdsaComponents = EcdsaComponents
     { vk :: BuiltinByteString
     , msg :: BuiltinByteString
     , sig :: BuiltinByteString
     }
-PlutusTx.unstableMakeIsData ''Ed25519Components
+PlutusTx.unstableMakeIsData ''EcdsaComponents
 
 {-# INLINEABLE mkValidator #-}
-mkValidator :: Ed25519Components -> Ed25519Components -> ScriptContext -> Bool
+mkValidator :: EcdsaComponents -> EcdsaComponents -> ScriptContext -> Bool
 mkValidator dat red ctx =
-    verifyFromDatum && verifyFromRedeemer
+    traceIfFalse "Validation Failed" (verifyFromDatum && verifyFromRedeemer)
   where
-    verifyFromDatum = verifyEd25519Signature (vk dat) (msg dat) (sig dat)
-    verifyFromRedeemer = verifyEd25519Signature (vk red) (msg red) (sig red)
+    verifyFromDatum = verifyEcdsaSecp256k1Signature (vk dat) (msg dat) (sig dat)
+    verifyFromRedeemer = verifyEcdsaSecp256k1Signature (vk red) (msg red) (sig red)
 
 mkWrappedValidator :: BuiltinData -> BuiltinUnit
 mkWrappedValidator ctx_ = check $ mkValidator (unsafeFromBuiltinData datum) (unsafeFromBuiltinData redeemer) scriptContext

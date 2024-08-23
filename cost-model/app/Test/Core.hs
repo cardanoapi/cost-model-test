@@ -7,29 +7,34 @@ import PlutusLedgerApi.Common
 import PlutusTx
 import Cardano.Kuber.Data.Parsers (parseAddressBech32)
 
+data BytesAndFeeRecord = BytesAndFeeRecord {
+    scriptBytes :: Int,
+    fee :: Int
+} deriving Show
 
 runWithRefScript contractName validator walletAddr skey netId datum redeemer = do 
     trace ("\nTesting " ++ contractName)
     let scriptInfo = v3ScriptInfo netId validator
     trace("\taddress: " ++ (show $ serialiseAddress $ v3address scriptInfo))
     let txScript = TxScriptPlutus $ toTxPlutusScript $ v3script scriptInfo
-    trace("\tscript bytes: " ++ (show $ txScriptByteSize $ txScript))
-    -- trace("\nCreating Reference Script UTxO ...")
+        scriptBytes = txScriptByteSize $ txScript
+    trace("\tscript bytes: " ++ (show scriptBytes ))
     txCreateRefScriptUtxo <- testCreateRefScriptUtxo walletAddr skey txScript
-    liftIO $ reportExUnitsandFee txCreateRefScriptUtxo
     let refScriptUtxoTxId = TxIn (getTxId $ getTxBody txCreateRefScriptUtxo) (TxIx 0)
+    trace("\nCreating Reference Script...")
     waitTxConfirmation txCreateRefScriptUtxo 180
-    -- trace("\nLocking in script address ...")
     txLock <- testLock walletAddr skey (v3script scriptInfo) datum
+    trace("\nLocking...")
     waitTxConfirmation txLock 180
     let input = TxIn (getTxId $ getTxBody $ txLock) (TxIx 0)
-    -- trace("\nRedeeming using reference script ...")
     txReedeem <- testRedeem walletAddr skey (v3script scriptInfo) input redeemer (Just refScriptUtxoTxId)
-    liftIO $ reportExUnitsandFee txReedeem
+    let fee = reportExUnitsandFee txReedeem
     liftIO $ reportStrippedTxBytes txReedeem datum redeemer
+    trace("\nRedeeming with reference script...")
     waitTxConfirmation txReedeem 180
     trace("\nPassed")
     trace("\n===========================================================================================")
+    return $ BytesAndFeeRecord scriptBytes fee
 
 testInfo contractName validator walletAddr skey netId datum redeemer = do 
     trace ("Testing " ++ contractName)
@@ -41,14 +46,13 @@ testInfo contractName validator walletAddr skey netId datum redeemer = do
     let input = TxIn (getTxId $ getTxBody $ txLock) (TxIx 0)
     trace("Redeeming ...")
     txReedeem <- testRedeem walletAddr skey (v3script scriptInfo) input redeemer Nothing
-    liftIO $ reportExUnitsandFee txReedeem
     waitTxConfirmation txReedeem 180
     trace("Passed")
 
 testLock walletAddr sKey script datum = do
     let 
         scriptAddress = plutusScriptAddr (toTxPlutusScript $ script) (Testnet (NetworkMagic 4))
-        txb = lock scriptAddress (lovelaceToValue 3_000_000) datum
+        txb = lock scriptAddress (lovelaceToValue 20_000_000) datum
             <> txWalletSignKey sKey
             <> txWalletAddress walletAddr
     runBuildAndSubmit txb
@@ -59,7 +63,7 @@ testRedeem walletAddr sKey script input redeemer refTxIn = do
             Nothing -> redeem txin script redeemer 
             Just a -> redeemWithRefScript txin txout redeemer a
         
-        txb =  txPayTo walletAddr (lovelaceToValue 3_000_000)
+        txb =  txPayTo walletAddr (lovelaceToValue 20_000_000)
             <> txWalletSignKey sKey
             <> txWalletAddress walletAddr
             <> maybeRefTxInTxb

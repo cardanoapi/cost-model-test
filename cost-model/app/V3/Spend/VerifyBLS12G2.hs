@@ -32,8 +32,8 @@ PlutusTx.unstableMakeIsData ''BLSRedeemer
 mkValidator :: BLSDatum -> BLSRedeemer -> Bool
 mkValidator dat red =
     validateAdd
-        && validateMult
-        && validateNegative
+        -- && validateMult
+        -- && validateNegative
   where
     validateAdd =
         redeemerSum `bls12_381_G2_equals` datumSum

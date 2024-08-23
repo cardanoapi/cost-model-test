@@ -172,3 +172,20 @@ v3VerifyBlake2b224Datum = BI.toBuiltin $ bytesFromHex "5d4f58f5d89db08086d4cb0d9
 
 v3VerifyBlake2b224Redeemer :: BuiltinByteString
 v3VerifyBlake2b224Redeemer = BI.toBuiltin $ bytesFromHex "e9328f3aefec871e517803de2efaab12c792a9efb1f0f497a4996504b9f33c69"
+
+-- v3RandomComponents :: VerifyLargeRefScript.RandomComponents
+-- v3RandomComponents = VerifyLargeRefScript.RandomComponents
+--     {
+--         VerifyLargeRefScript.ecdsaVk= BI.toBuiltin $ bytesFromHex "0392d7b94bc6a11c335a043ee1ff326b6eacee6230d3685861cd62bce350a172e0"
+--         , VerifyLargeRefScript.ecdsaMsg= BI.toBuiltin $ bytesFromHex "16e0bf1f85594a11e75030981c0b670370b3ad83a43f49ae58a2fd6f6513cde9" 
+--         , VerifyLargeRefScript.ecdsaSig= BI.toBuiltin $ bytesFromHex "5fb12954b28be6456feb080cfb8467b6f5677f62eb9ad231de7a575f4b6857512754fb5ef7e0e60e270832e7bb0e2f0dc271012fa9c46c02504aa0e798be6295" 
+--         , VerifyLargeRefScript.ed25519Vk= BI.toBuiltin $ bytesFromHex "98a5e3a36e67aaba89888bf093de1ad963e774013b3902bfab356d8b90178a63"
+--         , VerifyLargeRefScript.ed25519Msg= BI.toBuiltin $ bytesFromHex "b4a8f381e70e7a" 
+--         , VerifyLargeRefScript.ed25519Sig= BI.toBuiltin $ bytesFromHex "6e0af2fe55ae377a6b7a7278edfb419bd321e06d0df5e27037db8812e7e3529810fa5552f6c0020985ca17a0e02e036d7b222a24f99b77b75fdd16cb05568107"
+--         , VerifyLargeRefScript.schnorrVk= BI.toBuiltin $ bytesFromHex "9f674f5d06a937e894d1cb5d0e015578890b720315395429b724a55757286dc4"
+--         , VerifyLargeRefScript.schnorrMsg= BI.toBuiltin $ bytesFromHex "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824" 
+--         , VerifyLargeRefScript.schnorrSig= BI.toBuiltin $ bytesFromHex "e7ab7ceb6c05cd7d5daa03bdb6cb5612abd39de910ac1ee4532d5f7072a2b35f102c1811376088d136026c5ed1608b5ecd220c81b224b79feb12e58f90f91786"
+--         -- , VerifyLargeRefScript.blsG1= BI.toBuiltin $ bytesFromHex "8c18eaa3c86ab258d1a24375c2189c69051a7a1aa517ba144d59840db1d38d6981a886479af77292a3b0af18a44dbf5d" 
+--         -- , VerifyLargeRefScript.blsG2= BI.toBuiltin $ bytesFromHex "94a318acbb010d52b0a6918b60dcd72a305290b2c9376a24ad7f15518bcdddec018411b509fdb753571832fc4aa40dc71"
+--         --                 <> "020013cd9fd0d461cf5dcca7478c0787cb286bcc60cfe3ee375a56c2e3baf6fc4ac9ab32cd3eb95194f5a4ac587c23d"
+--     }

@@ -5,7 +5,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# OPTIONS_GHC -fplugin-opt PlutusTx.Plugin:target-version=1.1.0 #-}
 
-module V3.Spend.VerifyEd25519 where
+module V3.Spend.VerifyEd25519Trace where
 
 import PlutusLedgerApi.V3
 import PlutusTx qualified
@@ -21,7 +21,7 @@ PlutusTx.unstableMakeIsData ''Ed25519Components
 {-# INLINEABLE mkValidator #-}
 mkValidator :: Ed25519Components -> Ed25519Components -> ScriptContext -> Bool
 mkValidator dat red ctx =
-    verifyFromDatum && verifyFromRedeemer
+    traceIfFalse "Validation Failed" (verifyFromDatum && verifyFromRedeemer)
   where
     verifyFromDatum = verifyEd25519Signature (vk dat) (msg dat) (sig dat)
     verifyFromRedeemer = verifyEd25519Signature (vk red) (msg red) (sig red)

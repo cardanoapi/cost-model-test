@@ -21,8 +21,7 @@ PlutusTx.unstableMakeIsData ''EcdsaComponents
 {-# INLINEABLE mkValidator #-}
 mkValidator :: EcdsaComponents -> EcdsaComponents -> ScriptContext -> Bool
 mkValidator dat red ctx =
-    verifyFromDatum
-        && verifyFromRedeemer
+    verifyFromDatum && verifyFromRedeemer
   where
     verifyFromDatum = verifyEcdsaSecp256k1Signature (vk dat) (msg dat) (sig dat)
     verifyFromRedeemer = verifyEcdsaSecp256k1Signature (vk red) (msg red) (sig red)

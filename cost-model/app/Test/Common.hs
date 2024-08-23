@@ -125,7 +125,7 @@ getSignKey skeyfile =
 
 trace str = liftIO $ putStrLn str  
 
-reportExUnitsandFee:: Tx ConwayEra -> IO ()
+reportExUnitsandFee:: Tx ConwayEra -> Int
 reportExUnitsandFee tx = case tx of
   ShelleyTx era ledgerTx -> let
     txWitnesses = ledgerTx ^. L.witsTxL
@@ -134,7 +134,7 @@ reportExUnitsandFee tx = case tx of
     -- this should be exUnits of single script involved in the transaction
     exUnits = map snd $ map snd $  Map.toList $ L.unRedeemers $  txWitnesses ^. L.rdmrsTxWitsL
     txFee=L.unCoin $ ledgerTx ^. L.bodyTxL ^. L.feeTxBodyL
-    in do
+    in fromInteger(txFee)
       -- (euMem,euCpu) <-case exUnits of
       --       [eunit]-> let eu = L.unWrapExUnits eunit
       --                     (mem,cpu) =   (L.exUnitsMem' eu,L.exUnitsSteps' eu)
@@ -143,13 +143,13 @@ reportExUnitsandFee tx = case tx of
       --                   putStrLn $  "ExUnits     :  memory = " ++ show mem ++ " cpu = " ++ show cpu
       --                   pure (toInteger mem, toInteger cpu)
       --       _       -> pure  (0,0)
-      putStrLn $  "Fee      :   " ++ show txFee
+      -- putStrLn $  "Fee      :   " ++ show
       -- if sizeLedger /= sizeCapi
       --   then do
       --     putStrLn $  "Tx Bytes (ledger):   " ++ show sizeLedger
       --     putStrLn $  "Tx Bytes (api)   :   " ++ show sizeCapi
       --   else
-      putStrLn $  "Tx Bytes  :   " ++ show sizeCapi
+      -- putStrLn $  "Tx Bytes  :   " ++ show sizeCapi
 
 reportStrippedTxBytes tx datum redeemer = case tx of 
   ShelleyTx era ledgerTx -> let
